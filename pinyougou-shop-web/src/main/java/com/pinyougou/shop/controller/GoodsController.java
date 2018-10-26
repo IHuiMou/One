@@ -40,7 +40,7 @@ public class GoodsController {
             goodsService.add(goods);
             return new Result(true, "添加成功");
         } catch (Exception e) {
-
+            System.out.println("ss");
             e.printStackTrace();
             return new Result(false, "添加失败");
         }
