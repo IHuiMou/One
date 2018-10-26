@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ 	 	 	 	 	 	http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--form-login是spring security命名空间配置登录相关信息的标签,它包含如下属性：
+    1. login-page 自定义登录页url,默认为/login
+    2. login-processing-url 登录请求拦截的url,也就是form表单提交时指定的action
+    3. default-target-url 默认登录成功后跳转的url
+    4. always-use-default-target 是否总是使用默认的登录成功后跳转url
+    5. authentication-failure-url 登录失败后跳转的url
+    6. username-parameter 用户名的请求字段 默认为userName
+    7. password-parameter 密码的请求字段 默认为password
+    8. authentication-success-handler-ref 指向一个AuthenticationSuccessHandler用于处理认证成功的请求,不能和default-target-url还有always-use-default-target同时使用
+    9. authentication-success-forward-url 用于authentication-failure-handler-ref
+    10. authentication-failure-handler-ref 指向一个AuthenticationFailureHandler用于处理失败的认证请求
+    11. authentication-failure-forward-url 用于authentication-failure-handler-ref
+    12. authentication-details-source-ref 指向一个AuthenticationDetailsSource,在认证过滤器中使用
+
+
+    原文：https://blog.csdn.net/yin380697242/article/details/51893397
+   -->
+    <!-- 设置页面不登陆也可以访问 不设置会来回的重定向，在login.html之间-->
+    <http pattern="/*.html" security="none"></http>
+    <http pattern="/css/**" security="none"></http>
+    <http pattern="/img/**" security="none"></http>
+    <http pattern="/js/**" security="none"></http>
+    <http pattern="/plugins/**" security="none"></http>
+
+    <!-- 页面的拦截规则    use-expressions:是否启动SPEL表达式 默认是true  spel是spring的一种表达式,开启的话下面的access需要配置成 hasRole('ROLE_ADMIN')-->
+    <!--   -->
+    <http use-expressions="false">
+        <!-- access是角色名称,当前用户必须有ROLE_USER的角色 才可以访问根目录及所属子目录的资源 -->
+        <intercept-url pattern="/**" access="ROLE_ADMIN"/>
+        <!-- 开启表单登陆功能 -->
+        <!--login-page 登入页路径-->
+        <!--default-target-url 登入成功后跳转的html地址-->
+        <!--authentication-failure-url 登入失败跳转的html地址-->
+        <!--always-use-default-target 是否总是使用默认的登录成功后跳转url,否则就跳转到访问的页面-->
+        <form-login login-page="/login.html" default-target-url="/admin/index.html"
+                    authentication-failure-url="/login.html" always-use-default-target="true"/>
+        <!--CSRF（Cross-site request forgery）跨站请求伪造，也被称为“One Click Attack”或者 Session Riding，通常缩写为 CSRF 或者 XSRF，是一种对网站的恶意利用。 -->
+        <!--csrf 默认打开，disabled是禁用的意思，这里设置为true，意思是关闭csrf-->
+        <csrf disabled="true"/>
+        <!--头信息-->
+        <headers>
+            <!--配置后可以使用框架页（iframe） policy的意思-->
+            <frame-options policy="SAMEORIGIN"/>
+        </headers>
+        <logout logout-success-url="/login.html"/>
+    </http>
+
+    <!-- 认证管理器 -->
+    <authentication-manager>
+        <!--认证提供者-->
+        <authentication-provider>
+            <user-service>
+                <!--user配置当前系统的用户-->
+                <!--authorities用户所拥有的角色-->
+                <user name="admin" password="123456" authorities="ROLE_ADMIN"/>
+                <user name="sunwukong" password="dasheng" authorities="ROLE_ADMIN"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+</beans:beans>

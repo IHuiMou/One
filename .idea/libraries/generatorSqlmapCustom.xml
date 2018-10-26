@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="generatorSqlmapCustom">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../generatorSqlmapCustom" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../generatorSqlmapCustom/src" />
+    </SOURCES>
+  </library>
+</component>
