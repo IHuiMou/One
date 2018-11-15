@@ -33,7 +33,7 @@ public class BrandController {
     @RequestMapping("/add")
     public Result addbrand(@RequestBody TbBrand brand) {
 
-        System.out.println();
+
         try {
 
             int addbrand = brandService.addbrand(brand);
