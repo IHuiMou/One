@@ -2,6 +2,9 @@ package com.pinyougou.manager.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
+
+
+
 import com.pinyougou.entity.Result;
 import com.pinyougou.pojo.TbBrand;
 import com.pinyougou.sellergoods.service.BrandService;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +35,8 @@ public class BrandController {
     }
 
     @RequestMapping("/add")
-    public Result addbrand(@RequestBody TbBrand brand) {
-
+    public Result addbrand(@RequestBody TbBrand brand ,HttpServletRequest request) {
+        String parameter = request.getParameter("");
 
         try {
 
@@ -62,7 +66,7 @@ public class BrandController {
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "修改失败");
-        }
+        } 哥
     }
 
     @RequestMapping("/delete")
